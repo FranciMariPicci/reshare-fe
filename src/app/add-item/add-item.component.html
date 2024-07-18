@@ -1,0 +1,64 @@
+@if(!isSubmitted){
+<div id="newObj"><h3>Aggiungi un nuovo oggetto</h3></div>
+<div class="registerContainer">
+  <form #addItemForm="ngForm" (ngSubmit)="onSubmit(addItemForm)">
+    <div class="form-group">
+      <label>*Nome: <input type="text" name="name" required ngModel></label>
+    </div>
+
+    <div class="form-group">
+      <label>*Categoria:</label>
+      <select name="categoryName" required ngModel>
+        <option value="elettronica">Elettronica</option>
+        <option value="giardinaggio">Giardinaggio</option>
+        <option value="casa">Casa</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label id="activetrade">*Pronto per lo scambio:
+        <div>
+          <input type="radio" class="btn-check" name="activetrade" id="option1" autocomplete="off" value="true" checked ngModel>
+          <label class="btn btn-secondary ms-5 mt-3" for="option1">SI</label>
+          <input type="radio" class="btn-check" name="activetrade" id="option2" autocomplete="off" value="false" ngModel>
+          <label class="btn btn-secondary ms-3 mt-3" for="option2">NO</label>
+        </div>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>*Stato:</label>
+      <select name="condition" required ngModel>
+        <option value="comenuovo">Come nuovo</option>
+        <option value="ottimo">Ottimo</option>
+        <option value="buono">Buono</option>
+        <option value="accettabile">Accettabile</option>
+      </select>
+    </div>  
+
+  <div>
+    <label id="description">*Descrizione: <input type="text" name="description" required ngModel></label>
+  </div>
+    <div>
+      <label>Aggiungi un commento allo stato: <input type="text" name="conditionComment" ngModel></label>
+    </div>
+
+    <div>
+  <div class="form-group">
+      <button id="submit" type="submit">CREA!</button>
+  </div></div>
+  </form>    
+
+</div>
+}
+@if(isSubmitted){
+<div id="alert" class="alert alert" role="alert">
+  <h4 class="alert-heading">Oggetto creato!</h4>
+  <h6>il tuo oggetto è entrato a fare parte del nostro circuito del riuso</h6>
+  <p id="alertext">Grazie al tuo impegno, hai contribuito alla sostenibilità e alla protezione del nostro pianeta. Continuando così, insieme possiamo fare la differenza per un futuro migliore!</p>
+  <hr>
+  <div class="mb-0">
+    <div><button type="button" id="home" class="btn btn-secondary" routerLink= "">HOME</button></div>
+  </div>
+</div>
+}

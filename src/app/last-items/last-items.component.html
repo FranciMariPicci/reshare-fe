@@ -1,0 +1,30 @@
+<div id="table">
+    <table class="table table-striped m-4">
+        <thead>
+            <tr id="intestation">
+                <th>Nome</th>
+                <th>Scambio</th>
+                <th>Condizione</th>
+                <th>Categoria</th>
+                <th>Città</th>
+                <th>Data</th>
+                <th>Proprietario</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tabody">
+            @for (i of items; track i.id){
+                <tr>
+                    <td>{{i.name}}</td> 
+                    <td>{{i.activetrade}}</td> 
+                    <td>{{i.condition}}</td>
+                    <td>{{i.categoryName}}</td> 
+                    <td>{{i.ownerCityName}}</td> 
+                    <td>{{i.creationDate}}</td>
+                    <td>{{i.ownerName}}</td>
+                    <td><button type="button" class="btn btn-outline-success" [routerLink] = "['/item', i.id]">mostra dettagli</button></td>  
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
