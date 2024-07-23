@@ -27,8 +27,6 @@ export class LoginComponent {
     this.loginService.login(loginInfo).subscribe({
       next: (response) => {
         console.log(response);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('userEmail', ngForm.value.email);
         this.router.navigate(['']);
       },
       error: err => {
@@ -36,6 +34,7 @@ export class LoginComponent {
         alert('Errore durante il login');
       },
     });
+
   }
 }
 

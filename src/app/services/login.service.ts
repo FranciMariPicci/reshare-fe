@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable, from, map } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginInfo } from '../model/loginInfo.model';
 
@@ -9,16 +9,36 @@ import { LoginInfo } from '../model/loginInfo.model';
 })
 export class LoginService {
   private apiUrl = 'http://localhost:8080/login'
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  private token = new BehaviorSubject<boolean>(this.isTokenPresent());
+  isLoggedIn$ = this.token.asObservable();
+
   constructor(private http: HttpClient) { }
 
 
-  login(loginInfo : LoginInfo): Observable<any>{
-    return from(this.http.post(this.apiUrl, loginInfo));
+  // Metodo per effettuare il login
+  login(loginInfo: LoginInfo): Observable<any> {
+    return this.http.post<{ token: string }>(this.apiUrl, loginInfo).pipe(
+      map(response => {
+        this.setToken(response.token);
+        localStorage.setItem('userEmail', loginInfo.email);
+        this.token.next(true);  // Aggiorna lo stato di login
+        return response;
+      })
+    );;
+  }
+
+  // Metodo per impostare il token nel localStorage
+  setToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  // Metodo per ottenere il token dal localStorage
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
   createAuthorizationHeader(){
-    const token = localStorage.getItem('token');
+    const token = this.getToken();
     if(token){
       return new HttpHeaders({
         'Authorization': 'Bearer ' + token
@@ -28,13 +48,18 @@ export class LoginService {
     return null;
   }
 
-  get isLoggedIn() {
-    return this.loggedIn.asObservable();
+  get isLoggedIn(): Observable<boolean> {
+    return this.token.asObservable();
   }
 
   logout(){
     localStorage.removeItem('token');
-    this.loggedIn.next(false);
+    localStorage.removeItem('userEmail')
+    this.token.next(false);
+  }
+
+  isTokenPresent(): boolean {
+    return this.getToken() !== null;
   }
 
 }

@@ -11,19 +11,21 @@ import { LoginService } from '../services/login.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit{
-  isLoggedIn$: Observable<boolean> | undefined;
+  //isLoggedIn$: Observable<boolean> | undefined;
 
   constructor(private loginService: LoginService){}
+  isLogged = false;
 
   ngOnInit(): void {
-    this.isLoggedIn$ = this.loginService.isLoggedIn;
-    console.log(this.isLoggedIn$);
+    this.loginService.isLoggedIn$.subscribe(status => {
+      this.isLogged = status;
+      console.log('status ' + status)
+    });
   }
 
   onLogout(){
     this.loginService.logout();
-    this.isLoggedIn$ = this.loginService.isLoggedIn;
-    console.log(this.isLoggedIn$);
+    console.log(this.loginService.isTokenPresent());
   }
 
 }

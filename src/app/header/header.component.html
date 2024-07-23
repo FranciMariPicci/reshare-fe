@@ -48,7 +48,7 @@
                     <a class="nav-link active" routerLink="login">Login</a>
                   </li>
                 </ul>
-                @if(isLoggedIn$){
+                @if(isLogged){
                   <button class="register" (click)="onLogout()">Log-out</button> 
                 } @else {
                   <div>
