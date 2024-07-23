@@ -48,10 +48,19 @@
                     <a class="nav-link active" routerLink="login">Login</a>
                   </li>
                 </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" routerLink="last">Search</button>
-                </form>
+                @if(isLoggedIn$){
+                  <button class="register" (click)="onLogout()">Log-out</button> 
+                } @else {
+                  <div>
+                    <a routerLink="register" class="register">Registrati</a>
+                    <a routerLink="login" class="register">Log-in</a>
+                  </div>                  
+                }
+ 
+                
+                
+                  
+                 
               </div>
             </div>
           </nav>

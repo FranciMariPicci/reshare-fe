@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable, from } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginInfo } from '../model/loginInfo.model';
 
@@ -9,7 +9,7 @@ import { LoginInfo } from '../model/loginInfo.model';
 })
 export class LoginService {
   private apiUrl = 'http://localhost:8080/login'
-  private userId : number | undefined;
+  private loggedIn = new BehaviorSubject<boolean>(false);
   constructor(private http: HttpClient) { }
 
 
@@ -26,6 +26,15 @@ export class LoginService {
     }
     console.log("Jwt token Not Found")
     return null;
+  }
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+    this.loggedIn.next(false);
   }
 
 }

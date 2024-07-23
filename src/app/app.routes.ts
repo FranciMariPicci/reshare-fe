@@ -26,5 +26,6 @@ export const routes: Routes = [
     {path: 'trade-add', component: TradeAddComponent},
     {path: 'add-item', component: AddItemComponent},
     {path: 'profile', component: ProfileComponent},
+    
 ];
 
