@@ -11,7 +11,6 @@ import { LoginService } from '../services/login.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit{
-  //isLoggedIn$: Observable<boolean> | undefined;
 
   constructor(private loginService: LoginService){}
   isLogged = false;

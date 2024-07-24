@@ -14,8 +14,6 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-
-  // Metodo per effettuare il login
   login(loginInfo: LoginInfo): Observable<any> {
     return this.http.post<{ token: string }>(this.apiUrl, loginInfo).pipe(
       map(response => {
@@ -27,12 +25,10 @@ export class LoginService {
     );;
   }
 
-  // Metodo per impostare il token nel localStorage
   setToken(token: string): void {
     localStorage.setItem('token', token);
   }
 
-  // Metodo per ottenere il token dal localStorage
   getToken(): string | null {
     return localStorage.getItem('token');
   }
@@ -46,10 +42,6 @@ export class LoginService {
     }
     console.log("Jwt token Not Found")
     return null;
-  }
-
-  get isLoggedIn(): Observable<boolean> {
-    return this.token.asObservable();
   }
 
   logout(){
