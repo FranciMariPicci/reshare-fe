@@ -2,10 +2,7 @@ import { Component} from '@angular/core';
 import { Router} from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { FormsModule, NgForm } from '@angular/forms';
-import { catchError, of, tap } from 'rxjs';
 import { LoginInfo } from '../model/loginInfo.model';
-
-
 
 @Component({
   selector: 'app-login',
