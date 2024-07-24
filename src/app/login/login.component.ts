@@ -24,7 +24,7 @@ export class LoginComponent {
     this.loginService.login(loginInfo).subscribe({
       next: (response) => {
         console.log(response);
-        this.router.navigate(['']);
+        this.router.navigate(['profile']);
       },
       error: err => {
         console.log(err); 
