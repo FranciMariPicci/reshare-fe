@@ -1,6 +1,14 @@
 <div class="m-4">
-    <div id="dettagli">Profilo</div>
-    <div id="table">
+    <div id="dettagli">La mia pagina personale</div>
+    
+</div>
+
+<mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">person</mat-icon>  
+      </ng-template>
+      <div id="table">
         <table class="table table-striped-columns">
             <tbody>
                 <tr><td>NOME:</td><td>{{user?.firstname}} {{user?.lastname}}</td></tr>
@@ -13,34 +21,80 @@
             </tbody>
         </table>  
     </div>
-</div>
+    </mat-tab>
 
-<div class="intest"><p>I miei oggetti</p></div>
-<div style="display: flex;">
-    <div class="container">
-        <table class="table table-striped m-4">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Stato</th>
-                    <th>Condizione</th>
-                    <th>Categoria</th>
-                    <th>Data</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (i of items; track i.id){
-                    <tr>
-                        <td>{{i.name}}</td> 
-                        <td>{{i.activetrade}}</td> 
-                        <td>{{i.condition}}</td>
-                        <td>{{i.categoryName}}</td>  
-                        <td>{{i.creationDate}}</td>
-                        <td></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
+    <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">view_agenda</mat-icon>
+          
+        </ng-template>
+        <div class="intest"><p>I miei oggetti</p></div>
+        <div style="display: flex;">
+            <div class="container">
+                <table class="table table-striped m-4">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Stato</th>
+                            <th>Condizione</th>
+                            <th>Categoria</th>
+                            <th>Data</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (i of items; track i.id){
+                            <tr>
+                                <td>{{i.name}}</td> 
+                                <td>{{i.activetrade}}</td> 
+                                <td>{{i.condition}}</td>
+                                <td>{{i.categoryName}}</td>  
+                                <td>{{i.creationDate}}</td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </mat-tab>
+    
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">notifications</mat-icon>
+          
+        </ng-template>
+    
+        <div style="display: flex;">
+            <div class="container">
+                <table class="table table-striped m-4">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Stato</th>
+                            <th>Condizione</th>
+                            <th>Categoria</th>
+                            <th>Data</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (i of items; track i.id){
+                            <tr>
+                                <td>{{i.name}}</td> 
+                                <td>{{i.activetrade}}</td> 
+                                <td>{{i.condition}}</td>
+                                <td>{{i.categoryName}}</td>  
+                                <td>{{i.creationDate}}</td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    
+
+

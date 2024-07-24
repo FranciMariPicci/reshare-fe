@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.model';
 import { Item } from '../model/item.model';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [],
+  imports: [MatTabsModule, MatIconModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
