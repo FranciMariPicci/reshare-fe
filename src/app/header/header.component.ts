@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
 import { LoginService } from '../services/login.service';
 
 @Component({

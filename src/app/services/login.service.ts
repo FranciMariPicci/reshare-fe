@@ -25,25 +25,6 @@ export class LoginService {
     );;
   }
 
-  setToken(token: string): void {
-    localStorage.setItem('token', token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  createAuthorizationHeader(){
-    const token = this.getToken();
-    if(token){
-      return new HttpHeaders({
-        'Authorization': 'Bearer ' + token
-        });
-    }
-    console.log("Jwt token Not Found")
-    return null;
-  }
-
   logout(){
     localStorage.removeItem('token');
     localStorage.removeItem('userEmail')
@@ -52,6 +33,14 @@ export class LoginService {
 
   isTokenPresent(): boolean {
     return this.getToken() !== null;
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem('token', token);
   }
 
 }
