@@ -8,18 +8,24 @@ import { RegisterInfo } from '../model/register-info.model';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { merge } from 'rxjs';
 import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select'
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 
 export class RegisterComponent {
+  readonly firstname = new FormControl('', [Validators.required]);
+  readonly city = new FormControl('', [Validators.required]);
+  readonly lastname = new FormControl('', [Validators.required]);
+  readonly gender = new FormControl('', [Validators.required]);
   readonly email = new FormControl('', [Validators.required, Validators.email]);
+
   errorMessage = signal('');
 
   constructor(private registerService: RegisterService, private router: Router) { 

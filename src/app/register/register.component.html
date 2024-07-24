@@ -2,43 +2,68 @@
 <div class="registerContainer">
   <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
     <div class="form-group">
-      <label>*Nome: <input type="text" name="firstname" required ngModel></label>
+        <mat-form-field appearance="fill">
+          <mat-label>Nome</mat-label>
+          <input matInput
+          name = "firstname"  
+          [formControl]="firstname"
+           >
+        </mat-form-field>
     </div>
+
     <div class="form-group">
-      <label>*Cognome: <input type="text" name="lastname" required ngModel></label>
-    </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Cognome</mat-label>
+        <input matInput
+        name = "lastname" 
+        [formControl]="lastname"
+        >
+      </mat-form-field>
+  </div>
+
     <div class="form-group">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
         <input
+          name="email"
           matInput
           placeholder="pat@example.com"
           [formControl]="email"
           (blur)="updateErrorMessage()"
-          required
         />
         @if (email.invalid) {
           <mat-error>{{errorMessage()}}</mat-error>
         }
       </mat-form-field>
     </div>
+
     <div class="form-group">
-      <label>Telefono: <input type="tel" name="phone" ngModel></label>
-    </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Telefono</mat-label>
+        <input matInput name="phone">
+      </mat-form-field>
+  </div>
+
     <div class="form-group">
-      <label>*Città:</label>
-      <select name="city" required ngModel>
-        <option value="Roma">Roma</option>
-      </select>
+      <mat-form-field>
+        <mat-label>Città</mat-label>
+        <mat-select name="city" [formControl]="city">
+          <mat-option value="Roma">Roma</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
+
     <div class="form-group">
-      <label>*Genere:</label>
-      <select name="gender" required ngModel>
-        <option value="male">Maschio</option>
-        <option value="female">Femmina</option>
-        <option value="prefer not say">Preferisco non dirlo</option>
-      </select>
+      <mat-form-field>
+        <mat-label>Genere</mat-label>
+        <mat-select name="gender" [formControl]="gender">
+          <mat-option value="male">Maschio</mat-option>
+          <mat-option value="female">Femmina</mat-option>
+          <mat-option value="prefer not say">Preferisco non dirlo</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
+
     <div class="form-group">
       <label>*Data di nascita: <input type="date" name="birthdate" required ngModel></label>
     </div>
