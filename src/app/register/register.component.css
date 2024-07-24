@@ -70,6 +70,12 @@
     flex-direction: column;
   }
 
+  button:disabled {
+    background-color: #d3d3d3;
+    color: #a9a9a9;
+    cursor: not-allowed;
+  }
+
   
   #description {
     flex: 1 1 calc(50% - 15px);

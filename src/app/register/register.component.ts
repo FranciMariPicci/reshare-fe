@@ -1,22 +1,43 @@
-import { Component} from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import { RegisterService } from '../services/register.service';
-import { FormsModule, NgForm } from "@angular/forms";
-import { catchError, of, tap } from 'rxjs';
+import { FormControl, FormsModule, NgForm, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { User } from '../model/user.model';
 import { RegisterInfo } from '../model/register-info.model';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { merge } from 'rxjs';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 
 export class RegisterComponent {
+  readonly email = new FormControl('', [Validators.required, Validators.email]);
+  errorMessage = signal('');
 
-  constructor(private registerService: RegisterService, private router: Router) { }
+  constructor(private registerService: RegisterService, private router: Router) { 
+    merge(this.email.statusChanges, this.email.valueChanges)
+    .pipe(takeUntilDestroyed())
+    .subscribe(() => this.updateErrorMessage());
+  }
+
+  updateErrorMessage() {
+    if (this.email.hasError('required')) {
+      this.errorMessage.set('Email non valida');
+    } else if (this.email.hasError('email')) {
+      this.errorMessage.set('Not a valid email');
+    } else {
+      this.errorMessage.set('');
+    }
+  }
+
 
   onSubmit(ngForm : NgForm){
     const currentUser : User = {

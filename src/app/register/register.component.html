@@ -8,7 +8,19 @@
       <label>*Cognome: <input type="text" name="lastname" required ngModel></label>
     </div>
     <div class="form-group">
-      <label>*Email: <input type="email" name="email" required ngModel></label>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          [formControl]="email"
+          (blur)="updateErrorMessage()"
+          required
+        />
+        @if (email.invalid) {
+          <mat-error>{{errorMessage()}}</mat-error>
+        }
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label>Telefono: <input type="tel" name="phone" ngModel></label>
@@ -37,7 +49,7 @@
       <label>Descrizione: <input type="text" id="description" name="description" ngModel></label>
     </div>
     <div>
-      <button type="submit">REGISTRATI!</button>
+      <button type="submit" [disabled]="!registerForm.valid">REGISTRATI!</button>
     </div>
   </form>
 </div>
