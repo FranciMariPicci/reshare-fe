@@ -79,12 +79,20 @@
   
   #description {
     flex: 1 1 calc(50% - 15px);
-    height: 100px;
+    height: 150px;
     width: 555px;
     display: flex;
     flex-direction: column;
-    padding: 2%;
   }
 
+  #inputDescription {
+    flex: 1 1 calc(50% - 15px);
+    height: 150px;
+    width: 555px;
+    display: flex;
+    padding-right: 35px;  /* Padding destro */
+    padding-bottom: 20px; /* Padding inferiore */
+    padding-left: 7px;   /* Padding sinistro */
+  }
   
   

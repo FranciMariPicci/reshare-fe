@@ -1,69 +1,99 @@
 import { ChangeDetectionStrategy, Component, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import { RegisterService } from '../services/register.service';
-import { FormControl, FormsModule, NgForm, ReactiveFormsModule, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { User } from '../model/user.model';
 import { RegisterInfo } from '../model/register-info.model';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { merge } from 'rxjs';
 import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select'
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {provideNativeDateAdapter} from '@angular/material/core';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule],
+  providers: [provideNativeDateAdapter()],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatDatepickerModule, MatIconModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 
 export class RegisterComponent {
-  readonly firstname = new FormControl('', [Validators.required]);
-  readonly city = new FormControl('', [Validators.required]);
-  readonly lastname = new FormControl('', [Validators.required]);
-  readonly gender = new FormControl('', [Validators.required]);
-  readonly email = new FormControl('', [Validators.required, Validators.email]);
-
+  registerForm: FormGroup;
+  maxDate: Date;
+  hide = signal(true);
   errorMessage = signal('');
 
-  constructor(private registerService: RegisterService, private router: Router) { 
-    merge(this.email.statusChanges, this.email.valueChanges)
-    .pipe(takeUntilDestroyed())
-    .subscribe(() => this.updateErrorMessage());
-  }
-
-  updateErrorMessage() {
-    if (this.email.hasError('required')) {
-      this.errorMessage.set('Email non valida');
-    } else if (this.email.hasError('email')) {
-      this.errorMessage.set('Not a valid email');
-    } else {
-      this.errorMessage.set('');
-    }
-  }
-
-
-  onSubmit(ngForm : NgForm){
-    const currentUser : User = {
-      firstname: ngForm.value.firstname,
-      lastname: ngForm.value.lastname,
-      email: ngForm.value.email,
-      phone: ngForm.value.phone,
-      cityName: ngForm.value.city,
-      gender: ngForm.value.gender,
-      birthdate: ngForm.value.birthdate,
-      description: ngForm.value.description
-    };
-    const registerInfo : RegisterInfo = {
-      user : currentUser,
-      password : ngForm.value.password
-    }
-
-    this.registerService.saveUser(registerInfo).subscribe({
-      next: (resp)=>this.router.navigate(['/login']),
-      error: (er)=>console.log(er)
+  constructor(private registerService: RegisterService, private router: Router, private fb: FormBuilder) { 
+    this.registerForm = this.fb.group({
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      email: new FormControl('', [Validators.required, Validators.email]),
+      phone: [''],
+      city: ['', Validators.required],
+      gender: ['', Validators.required],
+      date: ['', Validators.required],
+      password: ['', Validators.required],
+      description: ['']
     });
+
+    const emailControl = this.registerForm.get('email')!;
+    merge(emailControl.statusChanges, emailControl.valueChanges)
+    .pipe(takeUntilDestroyed())
+    .subscribe(() => this.updateErrorMessage(emailControl));
+
+    const today = new Date();
+    this.maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+  }
+
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+
+  myFilter = (d: Date | null ): boolean => {
+    const date = (d || new  Date ());
+   return date<= this.maxDate;
+ };
+
+ updateErrorMessage(emailControl: AbstractControl) {
+  if (emailControl.hasError('required')) {
+    this.errorMessage.set('L\'email è obbligatoria');
+  } else if (emailControl.hasError('email')) {
+    this.errorMessage.set('L\'email non è valida');
+  } else {
+    this.errorMessage.set('');
+  }
+}
+
+  onSubmit(){
+    if (this.registerForm.valid) {
+      const currentUser: User = {
+        firstname: this.registerForm.value.firstname,
+        lastname: this.registerForm.value.lastname,
+        email: this.registerForm.value.email,
+        phone: this.registerForm.value.phone,
+        cityName: this.registerForm.value.city,
+        gender: this.registerForm.value.gender,
+        birthdate: this.registerForm.value.date,
+        //birthdate: "1998-01-05",
+        description: this.registerForm.value.description
+      };
+
+      const registerInfo: RegisterInfo = {
+        user: currentUser,
+        password: this.registerForm.value.password
+      };
+
+      this.registerService.saveUser(registerInfo).subscribe({
+        next: (resp) => this.router.navigate(['/login']),
+        error: (er) => console.log(er)
+      });
+    }
   }
 }
