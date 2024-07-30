@@ -1,12 +1,12 @@
 <div id="Registrazione"><h3>Registrazione</h3></div>
 <div class="registerContainer">
-  <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <mat-form-field appearance="fill">
           <mat-label>Nome</mat-label>
           <input matInput
-          name = "firstname"  
-          [formControl]="firstname"
+          formControlName="firstname"  
+          required
            >
         </mat-form-field>
     </div>
@@ -15,8 +15,8 @@
       <mat-form-field appearance="fill">
         <mat-label>Cognome</mat-label>
         <input matInput
-        name = "lastname" 
-        [formControl]="lastname"
+        formControlName = "lastname" 
+        required
         >
       </mat-form-field>
   </div>
@@ -24,15 +24,13 @@
     <div class="form-group">
       <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
-        <input
-          name="email"
-          matInput
-          placeholder="pat@example.com"
-          [formControl]="email"
-          (blur)="updateErrorMessage()"
-        />
-        @if (email.invalid) {
-          <mat-error>{{errorMessage()}}</mat-error>
+        <input matInput formControlName="email" placeholder="pat@example.com" (blur)="updateErrorMessage(registerForm.get('email')!)"
+        required/>
+        @if (registerForm.get('email')!.hasError('required')) {
+          <mat-error>{{errorMessage()}} </mat-error>
+        }
+        @if (registerForm.get('email')!.hasError('email')) {
+          <mat-error>{{errorMessage()}} </mat-error>
         }
       </mat-form-field>
     </div>
@@ -40,14 +38,14 @@
     <div class="form-group">
       <mat-form-field appearance="fill">
         <mat-label>Telefono</mat-label>
-        <input matInput name="phone">
+        <input matInput formControlName="phone">
       </mat-form-field>
   </div>
 
     <div class="form-group">
       <mat-form-field>
         <mat-label>Città</mat-label>
-        <mat-select name="city" [formControl]="city">
+        <mat-select formControlName="city" required>
           <mat-option value="Roma">Roma</mat-option>
         </mat-select>
       </mat-form-field>
@@ -56,7 +54,7 @@
     <div class="form-group">
       <mat-form-field>
         <mat-label>Genere</mat-label>
-        <mat-select name="gender" [formControl]="gender">
+        <mat-select formControlName="gender" required>
           <mat-option value="male">Maschio</mat-option>
           <mat-option value="female">Femmina</mat-option>
           <mat-option value="prefer not say">Preferisco non dirlo</mat-option>
@@ -65,13 +63,36 @@
     </div>
 
     <div class="form-group">
-      <label>*Data di nascita: <input type="date" name="birthdate" required ngModel></label>
+      <mat-form-field class="example-full-width">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" formControlName="date" required>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     </div>
+
     <div class="form-group">
-      <label>*Password: <input type="password" name="password" required ngModel></label>
+      <mat-form-field>
+      <mat-label>Enter your password</mat-label>
+      <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" required/>
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()">
+        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
     </div>
+    
     <div>
-      <label>Descrizione: <input type="text" id="description" name="description" ngModel></label>
+      <mat-form-field id="description">
+        <mat-label>Descrizione <mat-hint >{{ registerForm.get('description')?.value?.length || 0 }} / 128</mat-hint></mat-label>
+        <textarea matInput formControlName="description" id="inputDescription" maxlength="128"></textarea>
+        
+      </mat-form-field>
     </div>
     <div>
       <button type="submit" [disabled]="!registerForm.valid">REGISTRATI!</button>
