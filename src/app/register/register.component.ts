@@ -80,7 +80,7 @@ export class RegisterComponent {
         phone: this.registerForm.value.phone,
         cityName: this.registerForm.value.city,
         gender: this.registerForm.value.gender,
-        birthdate: this.registerForm.value.date,
+        birthdate: this.formatDate(this.registerForm.value.date),
         //birthdate: "1998-01-05",
         description: this.registerForm.value.description
       };
@@ -96,4 +96,12 @@ export class RegisterComponent {
       });
     }
   }
+
+  private formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${year}-${month}-${day}`;
+  }
+
 }
