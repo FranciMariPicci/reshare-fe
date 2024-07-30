@@ -1,100 +1,189 @@
 <div class="m-4">
-    <div id="dettagli">La mia pagina personale</div>
-    
+  <div id="dettagli">La mia pagina personale</div>
 </div>
-
-<mat-tab-group>
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-tab-group>
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon class="example-tab-icon">person</mat-icon>  
+        <mat-icon class="example-tab-icon">person</mat-icon>
       </ng-template>
-      <div id="table">
-        <table class="table table-striped-columns">
+
+      <div class="intest"><p>Dettagli personali</p></div>
+
+      <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile>
+          <div class="flip-arrow-container">
+            <div class="flip-container" [class.flip]="flipped">
+              <div class="flipper">
+                <div class="front">
+                  <table class="table table-striped-columns">
+                    <tbody>
+                      <tr>
+                        <td>NOME:</td>
+                        <td>{{ user?.firstname }} {{ user?.lastname }}</td>
+                      </tr>
+                      <tr>
+                        <td>EMAIL:</td>
+                        <td>{{ user?.email }}</td>
+                      </tr>
+                      <tr>
+                        <td>TELEFONO:</td>
+                        <td>{{ user?.phone }}</td>
+                      </tr>
+                      <tr>
+                        <td>GENERE:</td>
+                        <td>{{ user?.gender }}</td>
+                      </tr>
+                      <tr>
+                        <td>DATA DI NASCITA:</td>
+                        <td>{{ user?.birthdate }}</td>
+                      </tr>
+                      <tr>
+                        <td>CITTA':</td>
+                        <td>{{ user?.cityName }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="back">
+                  <table class="table table-striped-columns">
+                    <tbody>
+                      <tr>
+                        <img
+                          src="imgs/profile1.jpg"
+                          alt="Descrizione Immagine"
+                        />
+                      </tr>
+                      <tr>
+                        <td>{{ user?.description }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="arrow" (click)="toggleFlip()">
+              <mat-icon>chevron_right</mat-icon>
+            </div>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <table class="table table-striped m-4">
+            <thead>
+              <tr>
+                Ultima recensione
+              </tr>
+            </thead>
             <tbody>
-                <tr><td>NOME:</td><td>{{user?.firstname}} {{user?.lastname}}</td></tr>
-                <tr><td>EMAIL:</td><td>{{user?.email}}</td></tr>
-                <tr><td>TELEFONO:</td><td>{{user?.phone}}</td></tr>
-                <tr><td>GENERE:</td><td>{{user?.gender}}</td></tr>
-                <tr><td>DATA DI NASCITA:</td><td>{{user?.birthdate}}</td></tr>
-                <tr><td>CHI SONO:</td><td>{{user?.description}}</td></tr>
-                <tr><td>CITTA':</td><td>{{user?.cityName}}</td></tr>
+              <tr></tr>
             </tbody>
-        </table>  
-    </div>
+          </table>
+        </mat-grid-tile>
+      </mat-grid-list>
     </mat-tab>
 
     <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">view_agenda</mat-icon>
-          
-        </ng-template>
-        <div class="intest"><p>I miei oggetti</p></div>
-        <div style="display: flex;">
-            <div class="container">
-                <table class="table table-striped m-4">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Stato</th>
-                            <th>Condizione</th>
-                            <th>Categoria</th>
-                            <th>Data</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (i of items; track i.id){
-                            <tr>
-                                <td>{{i.name}}</td> 
-                                <td>{{i.activetrade}}</td> 
-                                <td>{{i.condition}}</td>
-                                <td>{{i.categoryName}}</td>  
-                                <td>{{i.creationDate}}</td>
-                                <td></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-      </mat-tab>
-    
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">notifications</mat-icon>
-          
-        </ng-template>
-    
-        <div style="display: flex;">
-            <div class="container">
-                <table class="table table-striped m-4">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Stato</th>
-                            <th>Condizione</th>
-                            <th>Categoria</th>
-                            <th>Data</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (i of items; track i.id){
-                            <tr>
-                                <td>{{i.name}}</td> 
-                                <td>{{i.activetrade}}</td> 
-                                <td>{{i.condition}}</td>
-                                <td>{{i.categoryName}}</td>  
-                                <td>{{i.creationDate}}</td>
-                                <td></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-    
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">all_inclusive</mat-icon>
+      </ng-template>
 
+      <div class="intest"><p>I miei oggetti</p></div>
 
+      <div class="container">
+        <table class="table table-striped m-4">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Stato</th>
+              <th>Condizione</th>
+              <th>Categoria</th>
+              <th>Data</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (i of items; track i.id){
+            <tr>
+              <td>{{ i.name }}</td>
+              <td>{{ i.activetrade }}</td>
+              <td>{{ i.condition }}</td>
+              <td>{{ i.categoryName }}</td>
+              <td>{{ i.creationDate }}</td>
+              <td></td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">notifications</mat-icon>
+      </ng-template>
+
+      <div class="intest"><p>notifiche</p></div>
+
+      <div class="container">
+        <table class="table table-striped m-4">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Stato</th>
+              <th>Condizione</th>
+              <th>Categoria</th>
+              <th>Data</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (i of items; track i.id){
+            <tr>
+              <td>{{ i.name }}</td>
+              <td>{{ i.activetrade }}</td>
+              <td>{{ i.condition }}</td>
+              <td>{{ i.categoryName }}</td>
+              <td>{{ i.creationDate }}</td>
+              <td></td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">favorite</mat-icon>
+      </ng-template>
+
+      <div style="display: flex">
+        <div class="container">
+          <table class="table table-striped m-4">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Descrizione</th>
+                <th>Data</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (it of myWishlist; track it.id){
+              <tr>
+                <td>{{ it.name }}</td>
+                <td>{{ it.categoryName }}</td>
+                <td>{{ it.description }}</td>
+                <td>{{ it.dateAdded }}</td>
+                <td></td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-grid-list>
